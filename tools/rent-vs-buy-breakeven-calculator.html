@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6051499531677717" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rent vs. Buy Breakeven Calculator | HomeStack</title>
+<meta name="description" content="Free rent vs. buy breakeven calculator. Enter your own down payment, mortgage rate, rent, and holding period for an instant, personal breakeven point.">
+<link rel="canonical" href="https://kelvorixai.github.io/homestack/tools/rent-vs-buy-breakeven-calculator.html">
+<meta property="og:title" content="Rent vs. Buy Breakeven Calculator">
+<meta property="og:description" content="Enter your own numbers to see when buying actually overtakes renting.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .calc{ border:1px solid var(--line); padding:28px 26px; margin-top:28px; background:var(--paper-raised); }
+  .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:20px; }
+  .field label{ font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:500; }
+  .field input{
+    font: inherit; font-size:16px; padding:11px 12px; border:1px solid var(--line);
+    background:var(--paper); color:var(--ink); border-radius:2px; width:100%;
+  }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:480px){ .field-row{ grid-template-columns:1fr; } }
+  button.calc-btn{
+    font: inherit; font-size:15px; font-weight:600; background:var(--pine); color:var(--paper);
+    border:none; padding:13px 22px; border-radius:2px; cursor:pointer; width:100%;
+  }
+  button.calc-btn:hover{ background:var(--pine-soft); }
+  .result{ margin-top:26px; padding:22px 24px; border:1px solid var(--clay); border-left:4px solid var(--clay); background:var(--paper); display:none; }
+  .result.show{ display:block; }
+  .result .amount{ font-family:"Fraunces", serif; font-size:2.2rem; font-weight:700; color:var(--clay-strong); font-variant-numeric:tabular-nums; }
+  .result .amount span{ font-size:1.1rem; font-family:"IBM Plex Sans", sans-serif; font-weight:500; color:var(--ink-soft); }
+  .result .breakdown{ margin-top:14px; font-size:13.5px; color:var(--ink-soft); font-family:"IBM Plex Mono", monospace; line-height:1.8; }
+  .share-btn{
+    margin-top:16px; font: inherit; font-size:13px; background:none; color:var(--pine-soft);
+    border:1px solid var(--pine-soft); padding:8px 14px; border-radius:2px; cursor:pointer;
+  }
+  .share-btn:hover{ background:var(--pine-soft); color:var(--paper); }
+  .formula-note{ font-size:13px; color:var(--ink-soft); margin-top:10px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">HomeStack</a>
+    <nav class="site">
+      <a href="../index.html">Guides</a>
+      <a href="index.html">Tools</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <header class="meta">
+      <span class="tag">Tool</span>
+      <h1>Rent vs. buy breakeven calculator</h1>
+      <p class="dek">Enter your own property price, down payment, mortgage rate, rent, and holding period to see your actual breakeven point — when cumulative buying costs drop below cumulative rent.</p>
+    </header>
+
+    <div class="calc">
+      <div class="field-row">
+        <div class="field">
+          <label for="price">Property price</label>
+          <input type="number" id="price" inputmode="decimal" placeholder="e.g. 1200000" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="downpct">Down payment (%)</label>
+          <input type="number" id="downpct" inputmode="decimal" placeholder="e.g. 25" min="0" max="100" step="any">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="rate">Mortgage interest rate (annual %)</label>
+          <input type="number" id="rate" inputmode="decimal" placeholder="e.g. 4.5" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="term">Mortgage term (years)</label>
+          <input type="number" id="term" inputmode="numeric" placeholder="e.g. 25" min="1" step="1">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="rent">Comparable monthly rent</label>
+          <input type="number" id="rent" inputmode="decimal" placeholder="e.g. 8000" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="rentgrowth">Annual rent growth (%)</label>
+          <input type="number" id="rentgrowth" inputmode="decimal" placeholder="e.g. 5" min="0" step="any">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="upkeep">Annual service charges + maintenance</label>
+          <input type="number" id="upkeep" inputmode="decimal" placeholder="e.g. 15000" min="0" step="any">
+        </div>
+        <div class="field">
+          <label for="holding">Your planned holding period (years)</label>
+          <input type="number" id="holding" inputmode="numeric" placeholder="e.g. 7" min="1" step="1">
+        </div>
+      </div>
+
+      <button class="calc-btn" id="calcBtn" type="button">Calculate my breakeven point</button>
+
+      <div class="result" id="result">
+        <div class="amount"><span>Breakeven point: </span><span id="amountValue">0</span></div>
+        <div class="breakdown" id="breakdown"></div>
+        <button class="share-btn" id="shareBtn" type="button">Copy result to share</button>
+      </div>
+    </div>
+
+    <div class="content" style="margin-top:36px;">
+      <h2>How this is calculated</h2>
+      <p>This models the cumulative cash cost of each path year by year:</p>
+      <ul>
+        <li><strong>Buying's upfront cost:</strong> down payment + DLD transfer fee (4%) + agency commission (2%) + mortgage registration fee (0.25% of the loan)</li>
+        <li><strong>Buying's ongoing "lost" cost:</strong> mortgage interest paid each year (not principal — that builds equity) plus service charges and maintenance</li>
+        <li><strong>Renting's cost:</strong> cumulative rent, growing each year at your entered rate</li>
+      </ul>
+      <p>The breakeven point is the first year cumulative buying cost drops at or below cumulative rent. Property value appreciation isn't included, since it's the least predictable input and applies to both a sold property and reinvested rent savings.</p>
+      <p class="formula-note">This is a projection based on the numbers you enter, not a quote — actual fees, rates, and costs vary. It doesn't account for taxes, opportunity cost of the down payment, or property appreciation.</p>
+    </div>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>HomeStack</span>
+    <span>Also from Kelvorix AI: <a href="https://kelvorixai.github.io/">see all our sites</a></span>
+    <span>Educational content only — not financial or real estate advice.</span>
+    <span><a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var calcBtn = document.getElementById('calcBtn');
+  var shareBtn = document.getElementById('shareBtn');
+  var resultEl = document.getElementById('result');
+  var amountEl = document.getElementById('amountValue');
+  var breakdownEl = document.getElementById('breakdown');
+  var lastSummary = '';
+
+  function fmt(n){
+    return n.toLocaleString('en-US', {maximumFractionDigits: 0});
+  }
+
+  calcBtn.addEventListener('click', function(){
+    var price = parseFloat(document.getElementById('price').value) || 0;
+    var downPct = parseFloat(document.getElementById('downpct').value) || 0;
+    var ratePct = parseFloat(document.getElementById('rate').value) || 0;
+    var termYears = parseFloat(document.getElementById('term').value) || 0;
+    var rent = parseFloat(document.getElementById('rent').value) || 0;
+    var rentGrowthPct = parseFloat(document.getElementById('rentgrowth').value) || 0;
+    var upkeep = parseFloat(document.getElementById('upkeep').value) || 0;
+    var holding = parseFloat(document.getElementById('holding').value) || 0;
+
+    if (price <= 0 || rent <= 0 || termYears <= 0 || holding <= 0) {
+      breakdownEl.textContent = '';
+      amountEl.textContent = 'Enter your numbers above';
+      resultEl.classList.add('show');
+      shareBtn.style.display = 'none';
+      return;
+    }
+
+    var downPayment = price * (downPct / 100);
+    var loanAmount = price - downPayment;
+    var dldFee = price * 0.04;
+    var agencyFee = price * 0.02;
+    var mortgageRegFee = loanAmount * 0.0025;
+    var upfrontBuying = downPayment + dldFee + agencyFee + mortgageRegFee;
+
+    var r = (ratePct / 100) / 12;
+    var n = termYears * 12;
+    var monthlyPayment;
+    if (r === 0) {
+      monthlyPayment = loanAmount / n;
+    } else {
+      monthlyPayment = loanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    var balance = loanAmount;
+    var yearlyInterest = [];
+    var maxYears = 50;
+    for (var y = 0; y < maxYears; y++) { yearlyInterest.push(0); }
+    for (var m = 0; m < n && balance > 0; m++) {
+      var interestThisMonth = balance * r;
+      var principalThisMonth = monthlyPayment - interestThisMonth;
+      balance -= principalThisMonth;
+      var yearIdx = Math.floor(m / 12);
+      if (yearIdx < maxYears) yearlyInterest[yearIdx] += interestThisMonth;
+    }
+
+    var cumBuying = upfrontBuying;
+    var cumRenting = 0;
+    var breakevenYear = null;
+    var holdingBuying = null, holdingRenting = null;
+
+    for (var year = 1; year <= maxYears; year++) {
+      cumBuying += yearlyInterest[year - 1] + upkeep;
+      var rentThisYear = rent * 12 * Math.pow(1 + rentGrowthPct / 100, year - 1);
+      cumRenting += rentThisYear;
+
+      if (breakevenYear === null && cumBuying <= cumRenting) {
+        breakevenYear = year;
+      }
+      if (year === Math.round(holding)) {
+        holdingBuying = cumBuying;
+        holdingRenting = cumRenting;
+      }
+    }
+
+    var lines = [];
+    lines.push('Upfront buying costs: ' + fmt(upfrontBuying));
+    lines.push('Monthly mortgage payment: ' + fmt(monthlyPayment));
+    if (holdingBuying !== null) {
+      lines.push('At year ' + Math.round(holding) + ' — cumulative rent: ' + fmt(holdingRenting));
+      lines.push('At year ' + Math.round(holding) + ' — cumulative buying cost: ' + fmt(holdingBuying));
+      var diff = holdingRenting - holdingBuying;
+      if (diff > 0) {
+        lines.push('At your holding period, buying is cheaper by: ' + fmt(diff));
+      } else {
+        lines.push('At your holding period, renting is cheaper by: ' + fmt(-diff));
+      }
+    }
+
+    amountEl.textContent = breakevenYear !== null ? (breakevenYear + ' year' + (breakevenYear === 1 ? '' : 's')) : 'Beyond ' + maxYears + ' years';
+    breakdownEl.innerHTML = lines.join('<br>');
+    resultEl.classList.add('show');
+    shareBtn.style.display = 'inline-block';
+    lastSummary = 'My rent vs. buy breakeven point came to ' + (breakevenYear !== null ? breakevenYear + ' years' : 'beyond ' + maxYears + ' years') + '. Try it yourself: https://kelvorixai.github.io/homestack/tools/rent-vs-buy-breakeven-calculator.html';
+  });
+
+  shareBtn.addEventListener('click', function(){
+    if (!lastSummary) return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(lastSummary).then(function(){
+        shareBtn.textContent = 'Copied!';
+        setTimeout(function(){ shareBtn.textContent = 'Copy result to share'; }, 1800);
+      });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
+
