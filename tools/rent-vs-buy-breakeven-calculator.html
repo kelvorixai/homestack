@@ -40,7 +40,70 @@
   }
   .share-btn:hover{ background:var(--pine-soft); color:var(--paper); }
   .formula-note{ font-size:13px; color:var(--ink-soft); margin-top:10px; }
+  .faq{ margin-top:36px; }
+  .faq details{ border:1px solid var(--line); border-radius:2px; padding:14px 16px; margin-bottom:10px; background:var(--paper-raised); }
+  .faq summary{ cursor:pointer; font-weight:600; list-style:none; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary::after{ content:"+"; float:right; color:var(--ink-soft); }
+  .faq details[open] summary::after{ content:"\2013"; }
+  .faq p{ margin-top:10px; font-size:14.5px; color:var(--ink-soft); }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What upfront costs does this calculator include for buying?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The down payment, plus Dubai's DLD transfer fee (4% of the property price), agency commission (2%), and a mortgage registration fee (0.25% of the loan amount)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why doesn't the breakeven point include property appreciation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because appreciation is the least predictable input, and it applies fairly evenly to both paths — a sold property's gain and money saved by renting and reinvested elsewhere both benefit from market growth, so leaving it out keeps the comparison focused on knowable cash costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does mortgage principal count as a buying cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — only the interest portion of each mortgage payment counts as a cost here, since principal repayment builds equity you keep, not money that's lost the way rent is."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as renting's cost in this comparison?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cumulative rent paid over your holding period, increasing each year at the annual rent growth rate you enter."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rent vs. Buy Breakeven Calculator",
+  "url": "https://kelvorixai.github.io/homestack/tools/rent-vs-buy-breakeven-calculator.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "AED"
+  },
+  "description": "Free calculator that finds the year buying overtakes renting, based on property price, down payment, mortgage rate, rent, and holding period."
+}
+</script>
 </head>
 <body>
 
@@ -96,8 +159,7 @@
       </div>
       <div class="field-row">
         <div class="field">
-          <label for="upkeep">Annual service charges + maintenance</label>
-          <input type="number" id="upkeep" inputmode="decimal" placeholder="e.g. 15000" min="0" step="any">
+          <label for="upkeep">Annual service charges + maintenance</label>  <input type="number" id="upkeep" inputmode="decimal" placeholder="e.g. 15000" min="0" step="any">
         </div>
         <div class="field">
           <label for="holding">Your planned holding period (years)</label>
@@ -124,6 +186,26 @@
       </ul>
       <p>The breakeven point is the first year cumulative buying cost drops at or below cumulative rent. Property value appreciation isn't included, since it's the least predictable input and applies to both a sold property and reinvested rent savings.</p>
       <p class="formula-note">This is a projection based on the numbers you enter, not a quote — actual fees, rates, and costs vary. It doesn't account for taxes, opportunity cost of the down payment, or property appreciation.</p>
+    </div>
+
+    <div class="content faq" style="margin-top:36px;">
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>What upfront costs does this calculator include for buying?</summary>
+        <p>The down payment, plus Dubai's DLD transfer fee (4% of the property price), agency commission (2%), and a mortgage registration fee (0.25% of the loan amount).</p>
+      </details>
+      <details>
+        <summary>Why doesn't the breakeven point include property appreciation?</summary>
+        <p>Because appreciation is the least predictable input, and it applies fairly evenly to both paths — a sold property's gain and money saved by renting and reinvested elsewhere both benefit from market growth, so leaving it out keeps the comparison focused on knowable cash costs.</p>
+      </details>
+      <details>
+        <summary>Does mortgage principal count as a buying cost?</summary>
+        <p>No — only the interest portion of each mortgage payment counts as a cost here, since principal repayment builds equity you keep, not money that's lost the way rent is.</p>
+      </details>
+      <details>
+        <summary>What counts as renting's cost in this comparison?</summary>
+        <p>Cumulative rent paid over your holding period, increasing each year at the annual rent growth rate you enter.</p>
+      </details>
     </div>
   </article>
 </main>
@@ -250,4 +332,3 @@
 
 </body>
 </html>
-
